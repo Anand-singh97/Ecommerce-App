@@ -58,12 +58,12 @@ function Navbar() {
             <Link to={"/cart"}>
               {" "}
               <img
-                className="absolute rounded-xl top-[5rem] right-6 p-2 w-[50%]"
+                className="fixed rounded-xl top-[5rem] right-6 p-2 w-[10%]"
                 src={cart_icon}
                 alt="cart_icon"
               />
             </Link>
-            <div className="absolute flex justify-center items-center top-[5.1rem] text-white right-[1.2rem] rounded-full h-[1.2rem] w-[1.2rem] bg-red-400">
+            <div className="fixed flex justify-center items-center top-[5.1rem] text-white right-[1.2rem] rounded-full h-[1.2rem] w-[1.2rem] bg-red-400">
               <p className="text-[1rem] ">1</p>
             </div>
           </div>

@@ -6,6 +6,7 @@ import { ShopCategory } from "./Pages/ShopCategory";
 import { Product } from "./Pages/Product";
 import { Cart } from "./Pages/Cart";
 import { LoginSignup } from "./Pages/LoginSignup";
+import Footer from "./Components/Footer/Footer";
 function App() {
   return (
     <div className="App font-poppins">
@@ -22,6 +23,7 @@ function App() {
           <Route path="/login" element=<LoginSignup /> />
         </Route>
       </Routes>
+      <Footer/>
     </div>
   );
 }
