@@ -3,7 +3,7 @@ import React from "react";
 const Item = ({ item }) => {
   const { name, image, new_price, old_price } = item;
   return (
-      <div className="flex gap-1 flex-col items-center">
+      <div className="flex gap-1 flex-col hover:scale-105 delay-[60ms] transition-all items-center">
         <img className="w-[70%] lg:w-[100%]" src={image} alt="productImage" />
         <div className="flex flex-col items-center">
           <p className="w-[70%] lg:w-[100%]">{name}</p>
