@@ -1,11 +1,13 @@
-import React from "react";
+import React, { useContext } from "react";
 import starIcon from "../Assets/star_icon.png";
 import starDullIcon from "../Assets/star_dull_icon.png";
 import { Link } from "react-router-dom";
+import { ShopContext } from "../ShopContext/ShopContext";
 
 const ProductDisplay = (item) => {
   const { product } = item;
-  const { image, name, old_price, new_price } = product;
+  const { image, name, old_price, new_price, id } = product;
+  const {addToCart} = useContext(ShopContext);
   return (
     <div className="flex flex-col gap-3 mb-5 lg:flex-row mx-3">
       <div className="gap-2 flex items-center justify-center">
@@ -51,9 +53,9 @@ const ProductDisplay = (item) => {
           </div>
         </div>
         <div className="flex justify-center lg:justify-start">
-          <Link className="flex bg-red-400 text-white py-2 px-[2rem] rounded-sm items-center">
+          <button onClick={()=> addToCart(id)} className="flex bg-red-400 text-white py-2 px-[2rem] rounded-sm items-center">
             ADD TO CART
-          </Link>
+          </button>
         </div>
         <div>
           <p>
