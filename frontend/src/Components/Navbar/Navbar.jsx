@@ -4,7 +4,7 @@ import cart_icon from "../Assets/cart_icon.png";
 import { Link, Outlet } from "react-router-dom";
 
 function Navbar() {
-  const [underline, setUnderline] = useState({});
+  const [underline, setUnderline] = useState({shop:"border-red-500 translate-y-[-0.2rem] border-b-[2.1px]"});
 
   const displayUnderline = (elementName) => {
     setUnderline({
@@ -17,7 +17,7 @@ function Navbar() {
       <div className="flex py-3 mx-2 items-center justify-between gap-[3rem] border-b-2">
         <div className="flex justify-center items-center">
           <Link to={"/"}>
-            <img className="" src={logo} alt="app logo" />
+            <img className="" onClick={()=>setUnderline({shop:"border-red-500 translate-y-[-0.2rem] border-b-[2.1px]"})} src={logo} alt="app logo" />
           </Link>
         </div>
 

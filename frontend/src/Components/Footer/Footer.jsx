@@ -5,7 +5,7 @@ import pinterestIcon from "../Assets/pintester_icon.png";
 import whatsappIcon from "../Assets/whatsapp_icon.png";
 const Footer = () => {
   return (
-    <div className="flex flex-col gap-5">
+    <div className="flex bg-pink-200 flex-col gap-5 pt-3">
       <div className="flex gap-3 items-center justify-center">
         <img src={footerLogo} alt="footerLogo" />
         <p className=" text-3xl font-bold">SHOPPER</p>

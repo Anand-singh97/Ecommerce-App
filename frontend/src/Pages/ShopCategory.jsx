@@ -34,7 +34,7 @@ export const ShopCategory = (props) => {
           })}
         </div>
       </div>
-      <div>
+      <div className="border-2 w-fit mx-auto py-2 my-5 bg-gray-200 px-5 rounded-full">
         <p>Explore More</p>
       </div>
     </div>
