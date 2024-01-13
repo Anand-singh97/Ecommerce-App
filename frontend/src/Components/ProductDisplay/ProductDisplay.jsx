@@ -1,16 +1,39 @@
-import React, { useContext } from "react";
+import React, { useContext, useState } from "react";
 import starIcon from "../Assets/star_icon.png";
 import starDullIcon from "../Assets/star_dull_icon.png";
 import { ShopContext } from "../ShopContext/ShopContext";
 import { ToastContainer, toast, Slide } from "react-toastify";
 import 'react-toastify/dist/ReactToastify.css';
+import { Link } from "react-router-dom";
 
 const ProductDisplay = (item) => {
   const { product } = item;
-  const { image, name, old_price, new_price, id } = product;
+  const { image, name, old_price, new_price, id, category } = product;
   const { addToCart } = useContext(ShopContext);
+  const [size, setSize] = useState(null);
+  const [sizeSelection, setSizeSelection] = useState({});
+  const notifyItemAdded = () => toast("Item added to the cart 😊", {
+    autoClose: 1500
+  });
+  const notifySizeSelectionRequired = () => toast("Please select a size before proceeding to checkout", {
+    autoClose: 2500
+  });
 
-  const notify = () => toast("Item added to the cart 😊");
+  const sizeValidation = ()=>{
+    if(size === null)
+    {
+      notifySizeSelectionRequired();
+    }
+    else
+    {
+      addToCart(id);
+      notifyItemAdded();
+    }
+  }
+
+  const changeSizeButtonColor = (size)=>{
+    setSizeSelection({[size]:'bg-gray-300 border-2 px-3'});
+  }
 
   return (
     <div className="flex flex-col gap-3 mb-5 lg:flex-row mx-3">
@@ -51,26 +74,22 @@ const ProductDisplay = (item) => {
         <div>
           <h1 className=" font-bold">Select Size</h1>
           <div className="flex gap-3">
-            <div className="border-2 px-3">S</div>
-            <div className="border-2 px-3">M</div>
-            <div className="border-2 px-3">L</div>
-            <div className="border-2 px-3">XL</div>
-            <div className="border-2 px-3">XXL</div>
+            <Link onClick={()=>{setSize('S'); changeSizeButtonColor('S');}} className={sizeSelection.S ? sizeSelection.S : 'border-2 px-3'}>S</Link>
+            <Link onClick={()=>{setSize('M'); changeSizeButtonColor('M')}} className={sizeSelection.M ? sizeSelection.M : 'border-2 px-3'}>M</Link>
+            <Link onClick={()=>{setSize('L'); changeSizeButtonColor('L')}} className={sizeSelection.L ? sizeSelection.L : 'border-2 px-3'}>L</Link>
+            <Link onClick={()=>{setSize('XL'); changeSizeButtonColor('XL');}} className={sizeSelection.XL ? sizeSelection.XL : 'border-2 px-3'}>XL</Link>
+            <Link onClick={()=>{setSize('XXL'); changeSizeButtonColor('XXL')}} className={sizeSelection.XXL ? sizeSelection.XXL : 'border-2 px-3'}>XXL</Link>
           </div>
         </div>
         <div className="flex justify-center items-center gap-3 lg:justify-start">
           <button
-            onClick={() => {
-              addToCart(id);
-              notify();
-            }}
+            onClick={() => sizeValidation()}
             className="flex bg-red-400 text-white py-2 px-[2rem] rounded-sm items-center"
           >
             ADD TO CART
           </button>
           <ToastContainer
             position="top-right"
-            autoClose={1500}
             hideProgressBar={false}
             newestOnTop={false}
             closeOnClick
@@ -83,7 +102,7 @@ const ProductDisplay = (item) => {
         </div>
         <div>
           <p>
-            <span className=" font-bold">Category : </span>Women, T-Shirt, Crop
+            <span className=" font-bold">Category : </span>{category}, T-Shirt, Crop
             Top
           </p>
           <p>
