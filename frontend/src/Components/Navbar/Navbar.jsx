@@ -1,9 +1,9 @@
 import React, { useContext, useState } from "react";
 import logo from "../Assets/logo.png";
-import cart_icon from "../Assets/cart_icon.png";
 import { Link, Outlet } from "react-router-dom";
 import { ShopContext } from "../ShopContext/ShopContext";
 import { MdShoppingCart } from "react-icons/md";
+
 function Navbar() {
   const [underline, setUnderline] = useState({
     shop: "border-red-500 translate-y-[-0.2rem] border-b-[2.1px]",
@@ -18,7 +18,7 @@ function Navbar() {
   return (
     <>
       <div className="flex py-3 mx-2 items-center justify-between gap-[3rem] border-b-2">
-        <div className="flex justify-center items-center">
+        <div className="flex md:ml-[2rem] justify-center items-center">
           <Link to={"/"}>
             <img
               className=""
@@ -51,14 +51,14 @@ function Navbar() {
               </Link>
             </li>
             <li className={underline.kids ? underline.kids : ""}>
-              <Link onClick={() => displayUnderline("kids")} to={"/kids"}>
+              <Link onClick={() => displayUnderline("kids")} to={"/kid"}>
                 Kids
               </Link>
             </li>
           </ul>
         </div>
 
-        <div className="flex justify-center gap-5 items-center mr-2">
+        <div className="flex justify-center md:mr-[2rem] gap-5 items-center mr-2">
           <div className="relative">
             <Link to={"/cart"}>
               <MdShoppingCart className="scale-[2]" />

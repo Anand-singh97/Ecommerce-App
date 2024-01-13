@@ -1,8 +1,7 @@
 import React, { useState } from "react";
-import { Link } from "react-router-dom";
 import Review from "../Review/Review";
 
-const Descriptionbox = () => {
+const DescriptionBox = () => {
   const [descriptionOrReview, setDescriptionOrReview] = useState("description");
 
   return (
@@ -35,17 +34,21 @@ const Descriptionbox = () => {
             Introducing our standout clothing piece – a true embodiment of style
             and sophistication. Crafted with precision and attention to detail,
             this exquisite garment seamlessly combines fashion-forward design
-            with unparalleled comfort. This piece features a material that not only feels luxurious against the skin but
-            also showcases remarkable durability for enduring wear. 
-            <br/><br/>
-            The
-            meticulous tailoring ensures a flattering fit, accentuating your
-            silhouette with every wear. Adorned with variety of special features, this garment adds a touch of modern elegance to its
+            with unparalleled comfort. This piece features a material that not
+            only feels luxurious against the skin but also showcases remarkable
+            durability for enduring wear.
+            <br />
+            <br />
+            The meticulous tailoring ensures a flattering fit, accentuating your
+            silhouette with every wear. Adorned with variety of special
+            features, this garment adds a touch of modern elegance to its
             timeless design. Whether you're dressing up for a special occasion
             or looking to make a statement in your everyday wardrobe, this
             versatile piece effortlessly rises to the occasion.
           </p>
-          <div className="text-center rounded-full mx-auto py-2 px-5 bg-gray-200 w-fit">EXPAND</div>
+          <div className="text-center rounded-full mx-auto py-2 px-5 bg-gray-200 w-fit">
+            EXPAND
+          </div>
         </div>
       ) : (
         <div className="border-[1px] p-5 flex flex-col gap-3">
@@ -65,11 +68,12 @@ const Descriptionbox = () => {
             comment="Not particularly impressed, to be honest."
             userName="Selena"
           />
-          <div className="text-center rounded-full mx-auto py-2 px-5 bg-gray-200 w-fit">SHOW MORE</div>
+          <div className="text-center rounded-full mx-auto py-2 px-5 bg-gray-200 w-fit">
+            SHOW MORE
+          </div>
         </div>
       )}
     </div>
   );
 };
-
-export default Descriptionbox;
+export default DescriptionBox;
