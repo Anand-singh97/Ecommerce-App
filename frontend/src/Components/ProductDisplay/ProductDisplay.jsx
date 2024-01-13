@@ -1,7 +1,6 @@
 import React, { useContext } from "react";
 import starIcon from "../Assets/star_icon.png";
 import starDullIcon from "../Assets/star_dull_icon.png";
-import { Link } from "react-router-dom";
 import { ShopContext } from "../ShopContext/ShopContext";
 
 const ProductDisplay = (item) => {
@@ -52,10 +51,11 @@ const ProductDisplay = (item) => {
             <div className="border-2 px-3">XXL</div>
           </div>
         </div>
-        <div className="flex justify-center lg:justify-start">
-          <button onClick={()=> addToCart(id)} className="flex bg-red-400 text-white py-2 px-[2rem] rounded-sm items-center">
+        <div className="flex justify-center items-center gap-3 lg:justify-start">
+          <button onClick={()=> {addToCart(id); alert('Items added to Cart successfully')}} className="flex bg-red-400 text-white py-2 px-[2rem] rounded-sm items-center">
             ADD TO CART
           </button>
+          {/* React toast notifications */}
         </div>
         <div>
           <p>
