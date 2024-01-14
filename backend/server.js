@@ -9,23 +9,23 @@ require('dotenv').config({ path: './.env' });
 
 const PORT = 4000;
 const app = express();
-app.use(express.json());
-app.use(cors());
 
-app.use(
-    cors({
-      origin: 'http://localhost:3000',
-      credentials: true,
-      allowedHeaders: ['Content-Type', 'Authorization'],
-      methods: ['GET', 'HEAD', 'PUT', 'PATCH', 'POST', 'DELETE'], // Methods as an array of strings
-    })
-);
+app.use(express.json());
 
 cloudinary.v2.config({
     cloud_name: process.env.CLOUD_NAME,
     api_key: process.env.CLOUD_API_KEY,
     api_secret: process.env.CLOUD_SECRET
 });
+
+app.use(
+    cors({
+      origin: 'http://localhost:3001',
+      credentials: true,
+      allowedHeaders: ['Content-Type', 'Authorization'],
+      methods: ['GET', 'HEAD', 'PUT', 'PATCH', 'POST', 'DELETE'], // Methods as an array of strings
+    })
+);
 
 app.use('/product', addProductRouter);
 

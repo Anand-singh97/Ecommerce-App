@@ -4,7 +4,7 @@ const {productModel} = require('./product.model');
 async function addProduct(name, newPath, category, new_price, old_price)
 {
     let ProductData = await productModel.find({});
-    let id = 1;
+    let id = 37;
     if(ProductData.length > 0)
     {
         let last_product_array = ProductData.slice(-1);

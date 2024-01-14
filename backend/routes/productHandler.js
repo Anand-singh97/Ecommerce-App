@@ -7,7 +7,7 @@ const cloudinary = require('cloudinary').v2;
 const addProductRouter = express.Router();
 
 addProductRouter.post('/addProduct', singleUpload, async(req, res)=>{
-
+    
     const {name, category, new_price, old_price} = req.body;
     const file = req.file;
     const fileUri = getDataUri(file);
