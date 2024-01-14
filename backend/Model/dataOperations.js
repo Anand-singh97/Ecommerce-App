@@ -1,7 +1,7 @@
 const {productModel} = require('./product.model');
 
 
-async function addProduct(name, image, category, new_price, old_price)
+async function addProduct(name, newPath, category, new_price, old_price)
 {
     let ProductData = await productModel.find({});
     let id = 1;
@@ -16,7 +16,7 @@ async function addProduct(name, image, category, new_price, old_price)
         await productModel.create({
             productId:id,
             name,
-            image,
+            image:{ id: newPath.public_id, url: newPath.secure_url },
             category,
             old_price,
             new_price

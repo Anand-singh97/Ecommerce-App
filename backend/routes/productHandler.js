@@ -1,14 +1,20 @@
 const express = require('express');
 const {addProduct, removeProduct, getAllProducts} = require('../Model/dataOperations');
-
+const singleUpload = require('../multer');
+const getDataUri = require('../dataUri');
+const cloudinary = require('cloudinary').v2;
 
 const addProductRouter = express.Router();
 
-addProductRouter.post('/addProduct', async(req, res)=>{
+addProductRouter.post('/addProduct', singleUpload, async(req, res)=>{
 
-    const {name, image, category, new_price, old_price} = req.body;
+    const {name, category, new_price, old_price} = req.body;
+    const file = req.file;
+    const fileUri = getDataUri(file);
+    const myCloud = await cloudinary.uploader.upload(fileUri.content);
+    const newPath = { public_id: myCloud.public_id, secure_url: myCloud.secure_url };
+    const response = await addProduct(name, newPath, category, new_price, old_price);
 
-    const response = await addProduct(name, image, category, new_price, old_price);
     if(response.success)
     {
         res.status(200).json({success:true, name:name});

@@ -5,6 +5,7 @@ const jwt = require('jsonwebtoken');
 const multer = require('multer');
 const path = require('path');
 const cors = require('cors');
+const cloudinary = require('cloudinary');
 const addProductRouter = require('./routes/productHandler');
 require('dotenv').config({ path: './.env' });
 
@@ -21,6 +22,12 @@ app.use(
       methods: ['GET', 'HEAD', 'PUT', 'PATCH', 'POST', 'DELETE'], // Methods as an array of strings
     })
 );
+
+cloudinary.v2.config({
+    cloud_name: process.env.CLOUD_NAME,
+    api_key: process.env.CLOUD_API_KEY,
+    api_secret: process.env.CLOUD_SECRET
+});
 
 const storage = multer.diskStorage({
     destination: './upload/images',
@@ -47,7 +54,6 @@ mongoose.connection.once('open', () => {
 mongoose.connection.on('error', (error) => {
     console.error(error);
 });
-
 
 const server = http.createServer(app);
 
