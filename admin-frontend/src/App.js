@@ -1,9 +1,13 @@
 import React from 'react'
-
+import { Route, Routes } from "react-router-dom";
+import Navbar from './Components/Navbar/Navbar';
 const App = () => {
   return (
     <div className="App font-poppins">
-      <h1 className=''>Hello</h1>
+    <Routes>
+      <Route path = '/' element = {<Navbar/>}/>
+    </Routes>
+      
     </div>
   )
 }
