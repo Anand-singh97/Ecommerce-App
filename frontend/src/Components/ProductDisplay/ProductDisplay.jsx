@@ -12,10 +12,11 @@ const ProductDisplay = (item) => {
   const { addToCart } = useContext(ShopContext);
   const [size, setSize] = useState(null);
   const [sizeSelection, setSizeSelection] = useState({});
-  const notifyItemAdded = () => toast("Item added to the cart 😊", {
+  
+  const notifyItemAdded = () => toast.success("Item added to the cart 😊", {
     autoClose: 1500
   });
-  const notifySizeSelectionRequired = () => toast("Please select a size before proceeding to checkout", {
+  const notifySizeSelectionRequired = () => toast.error("Please select a size before proceeding to checkout", {
     autoClose: 2500
   });
 

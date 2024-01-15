@@ -1,10 +1,10 @@
 const http = require('http');
 const express = require('express');
 const mongoose = require('mongoose');
-const jwt = require('jsonwebtoken');
 const cors = require('cors');
 const cloudinary = require('cloudinary');
 const addProductRouter = require('./routes/productHandler');
+const userRoute = require('./routes/userHandler');
 require('dotenv').config({ path: './.env' });
 
 const PORT = 4000;
@@ -20,7 +20,7 @@ cloudinary.v2.config({
 
 app.use(
     cors({
-      origin: 'http://localhost:3001',
+      origin: ['http://localhost:3001', 'http://localhost:3000'],
       credentials: true,
       allowedHeaders: ['Content-Type', 'Authorization'],
       methods: ['GET', 'HEAD', 'PUT', 'PATCH', 'POST', 'DELETE'], // Methods as an array of strings
@@ -28,7 +28,7 @@ app.use(
 );
 
 app.use('/product', addProductRouter);
-
+app.use('/user', userRoute);
 mongoose.connection.once('open', () => {
     console.log('MongoDB connection ready!');
 });

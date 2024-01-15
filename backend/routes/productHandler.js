@@ -27,6 +27,7 @@ addProductRouter.post('/addProduct', singleUpload, async(req, res)=>{
 
 addProductRouter.post('/removeProduct', async (req, res)=>{
     const {id, name} = req.body;
+    console.log(id, name);
     const response = await removeProduct(id);
     if(response.success)
     {

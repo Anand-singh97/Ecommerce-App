@@ -11,7 +11,7 @@ const Admin = () => {
         <Sidebar />
         <Routes>
           <Route path="/addProduct" element={<div className="md:mt-[2rem] w-full"><AddProduct /></div>} />
-          <Route path="/listProduct" element={<ListProduct />} />
+          <Route path="/listProduct" element={<div className="lg:w-full h-full flex justify-center"><div className="md:mt-[2rem] w-full lg:w-fit"><ListProduct /></div></div>} />
         </Routes>
       </div>
     </div>

@@ -1,5 +1,7 @@
 import React, { useState } from "react";
 import upload_area from "../assets/upload_area.svg";
+import { ToastContainer, toast, Slide } from "react-toastify";
+import 'react-toastify/dist/ReactToastify.css';
 
 const AddProduct = () => {
   const [title, setTitle] = useState(null);
@@ -47,20 +49,45 @@ const AddProduct = () => {
       formData.append('old_price', price);
       formData.append('product', image);
 
-      const response = await fetch("http://localhost:4000/product/addProduct", {
+      const processingToast = toast.info("😊 Adding product. Please wait...", {
+        autoClose: false
+      });
+
+      try
+      {
+        const response = await fetch("http://localhost:4000/product/addProduct", {
         method: "POST",
         credentials: "include",
         body:formData,
       });
       if(response.ok)
       {
-        alert('Done');
-      }else
+        toast.update(processingToast, {
+          render: 'Product added successfully.',
+          type: toast.TYPE.SUCCESS,
+          autoClose:3000
+        })
+      }
+      else
       {
-        console.log(response);
-        alert('error');
+        toast.update(processingToast, {
+          render: 'Error, adding product. Please try again.',
+          type: toast.TYPE.ERROR,
+          autoClose:3000
+        })
       }
     }
+    catch(error)
+    {
+      toast.update(processingToast, {
+        render: 'An unexpected error occurred. Please try again.',
+        type: toast.TYPE.ERROR,
+        autoClose:3000
+      })
+    }
+        
+      }
+      
   };
 
   return (
@@ -139,6 +166,7 @@ const AddProduct = () => {
                     src={image ? URL.createObjectURL(image) : upload_area}
                     className="cursor-pointer lg:w-[30%] w-[90%]"
                     alt="upload area"
+                    value = {image}
                   />
                   <span className="text-red-400">{errors.image ? errors.image : ''}</span>
                 </div>
@@ -159,6 +187,17 @@ const AddProduct = () => {
           >
             ADD
           </button>
+          <ToastContainer
+            position="top-right"
+            hideProgressBar={false}
+            newestOnTop={false}
+            closeOnClick
+            rtl={false}
+            pauseOnFocusLoss
+            draggable
+            pauseOnHover
+            transition={Slide}
+          />
         </div>
       </form>
     </div>
