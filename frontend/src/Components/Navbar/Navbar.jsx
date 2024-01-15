@@ -15,6 +15,11 @@ function Navbar() {
     });
   };
 
+  const logout = () => {
+    localStorage.removeItem("auth-token");
+    window.location.replace('/');
+  };
+
   return (
     <>
       <div className="flex py-3 mx-2 items-center justify-between gap-[3rem] border-b-2">
@@ -67,9 +72,15 @@ function Navbar() {
               <p className="text-[1rem] ">{getTotalCartItems()}</p>
             </div>
           </div>
-          <Link className="border-2 py-1 px-5 rounded-lg" to={"/login"}>
-            Login
-          </Link>
+          {localStorage.getItem("auth-token") ? (
+            <Link onClick={logout} className="border-2 py-1 px-5 rounded-lg">
+              Logout
+            </Link>
+          ) : (
+            <Link className="border-2 py-1 px-5 rounded-lg" to={"/login"}>
+              Login
+            </Link>
+          )}
         </div>
       </div>
       <div>

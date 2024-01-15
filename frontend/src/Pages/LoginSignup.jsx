@@ -3,7 +3,6 @@ import { useState } from 'react'
 import { Link } from 'react-router-dom'
 import { ToastContainer, toast, Slide } from "react-toastify";
 import 'react-toastify/dist/ReactToastify.css';
-
 export const LoginSignup = () => {
 
   const [state, setState] = useState('Login');
@@ -28,6 +27,7 @@ export const LoginSignup = () => {
     {
       errorList.password = 'Password is required'
     }
+    setErrors(errorList);
     return Object.keys(errorList).length === 0;
   }
   const login = async()=>
@@ -49,12 +49,14 @@ export const LoginSignup = () => {
       })
       if(response.ok)
       { 
-        const {name} = await response.json();
+        const {name, token} = await response.json();
+        localStorage.setItem('auth-token', token);
         toast.update(processingToast, {
           render:`Welcome ${name}`,
           type:toast.TYPE.SUCCESS,
           autoClose:3000
         })
+        window.location.replace('/');
       }
       else
       {
@@ -66,11 +68,41 @@ export const LoginSignup = () => {
       }
     }
   }
-  const signUp = ()=>
+  const signUp = async()=>
   {
-    if(validation)
+    if(validation())
     {
-
+      // const processingToast = toast.info("😊 Processing request. Please wait...", {
+      //   autoClose: false
+      // });
+      console.log(email, password);
+      const response = await fetch('http://localhost:4000/user/signup', {
+        method: 'POST',
+        body: JSON.stringify({email:email, password:password, name:name}),
+        credentials:'include',
+        headers:{
+          Accept:'application/json',
+          'Content-Type':'application/json'
+        }
+      })
+      if(response.ok)
+      { 
+        const {token} = await response.json();
+        localStorage.setItem('auth-token', token);
+        // toast.update(processingToast, {
+        //   render:`Welcome ${name}`,
+        //   type:toast.TYPE.SUCCESS,
+        //   autoClose:3000
+        // })
+        window.location.replace('/');
+      }
+      else
+      {
+        toast.error({
+          info:`This user already exists.`,
+          autoClose:3000
+        })
+      }
     }
   }
 
@@ -79,11 +111,25 @@ export const LoginSignup = () => {
       <div className='w-[430px] lg:w-[600px] bg-white p-6'>
         <h1 className='text-2xl font-bold mb-4 text-center'>{state}</h1>
         <div className='flex flex-col gap-2 items-center'>
-          {state !== 'Login' ? <input type='text' onChange={(e)=> setName(e.target.value)} placeholder='Your name' className='mb-2 focus:outline-none border-2 p-2' />
+          {state !== 'Login' 
+          ? 
+          <div className='mb-2'>
+            <input type='text' onChange={(e)=> setName(e.target.value)} placeholder='Your name' className='focus:outline-none border-2 p-2' />
+            {errors.name ? <span className='block text-red-400'>{errors.name}</span> : <></>}
+          </div> 
           :
-          <></>}
-          <input type='email' onChange={(e)=> setEmail(e.target.value)} placeholder='Email Address' className='mb-2 focus:outline-none border-2 p-2' />
-          <input type='password' onChange={(e)=> setPassword(e.target.value)} placeholder='Password' className='mb-4 focus:outline-none border-2 p-2' />
+          <></>
+          
+          }
+          <div className='mb-2'>
+            <input type='email' onChange={(e)=> setEmail(e.target.value)} placeholder='Email Address' className='focus:outline-none border-2 p-2' />
+            {errors.email ? <span className='block text-red-400'>{errors.email}</span> : <></> }
+          </div>
+          
+          <div className='mb-4'>
+            <input type='password' onChange={(e)=> setPassword(e.target.value)} placeholder='Password' className='focus:outline-none border-2 p-2' />
+            {errors.password ? <span className='block text-red-400'>{errors.password}</span> : <></> }
+          </div>  
         </div>
         <div className='flex mb-3 justify-center'>
           <Link onClick={()=> {state === 'Login' ? login() : signUp()}} className='flex bg-red-400 text-white py-2 px-[2rem] rounded-sm items-center'>Continue</Link>
@@ -103,8 +149,7 @@ export const LoginSignup = () => {
             draggable
             pauseOnHover
             transition={Slide}
-          />
-        
+          />    
       </div>
     </div>
   )

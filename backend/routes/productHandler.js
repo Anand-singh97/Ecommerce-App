@@ -4,9 +4,9 @@ const singleUpload = require('../multer');
 const getDataUri = require('../dataUri');
 const cloudinary = require('cloudinary').v2;
 
-const addProductRouter = express.Router();
+const productRouter = express.Router();
 
-addProductRouter.post('/addProduct', singleUpload, async(req, res)=>{
+productRouter.post('/addProduct', singleUpload, async(req, res)=>{
     
     const {name, category, new_price, old_price} = req.body;
     const file = req.file;
@@ -25,7 +25,7 @@ addProductRouter.post('/addProduct', singleUpload, async(req, res)=>{
     }
 });
 
-addProductRouter.post('/removeProduct', async (req, res)=>{
+productRouter.post('/removeProduct', async (req, res)=>{
     const {id, name} = req.body;
     console.log(id, name);
     const response = await removeProduct(id);
@@ -39,7 +39,7 @@ addProductRouter.post('/removeProduct', async (req, res)=>{
     }
 });
 
-addProductRouter.get('/allProducts', async (req, res)=>{
+productRouter.get('/allProducts', async (req, res)=>{
 
     const response = await getAllProducts();
     if(response.success)
@@ -52,4 +52,20 @@ addProductRouter.get('/allProducts', async (req, res)=>{
     }
 })
 
-module.exports = addProductRouter;
+
+productRouter.get('/newProducts', async(req, res)=>{
+
+    const response = await getAllProducts();
+    if(response.success)
+    {   
+        const {result} = response;
+        const newCollection = result.slice(-8);
+        res.status(200).json({success:true, result:newCollection});
+    }
+    else
+    {
+        res.status(500).json({success:false, message:response.message});
+    }
+})
+
+module.exports = productRouter;

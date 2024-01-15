@@ -7,7 +7,7 @@ const CartItems = () => {
 
   // Filter products with quantity greater than 0
   const cartItemsToRender = allProducts.filter(
-    (item) => cartItems[item.id] > 0
+    (item) => cartItems[item.productId] > 0
   );
 
   return (
@@ -48,7 +48,7 @@ const CartItems = () => {
                         <img
                           className="w-[3rem] md:w-[5rem] mx-auto"
                           alt="item img"
-                          src={item.image}
+                          src={item.image.url}
                         />
                       </td>
                       <td className="hidden md:table-cell px-4 border-b-[1px] text-center w-fit py-2">
@@ -58,14 +58,14 @@ const CartItems = () => {
                         ${item.new_price}
                       </td>
                       <td className="px-4 border-b-[1px] text-center py-2">
-                        {cartItems[item.id]}
+                        {cartItems[item.productId]}
                       </td>
                       <td className="px-4 border-b-[1px] text-center py-2">
-                        ${item.new_price * cartItems[item.id]}
+                        ${item.new_price * cartItems[item.productId]}
                       </td>
                       <td className="px-4 border-b-[1px] cursor-pointer py-2">
                         <CiCircleRemove
-                          onClick={() => removeFromCart(item.id)}
+                          onClick={() => removeFromCart(item.productId)}
                           className="scale-[1.5] mx-auto"
                         />
                       </td>

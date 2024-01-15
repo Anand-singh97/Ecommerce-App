@@ -1,4 +1,4 @@
-import React, { useContext, useState } from "react";
+import React, { useContext, useEffect, useState } from "react";
 import starIcon from "../Assets/star_icon.png";
 import starDullIcon from "../Assets/star_dull_icon.png";
 import { ShopContext } from "../ShopContext/ShopContext";
@@ -8,17 +8,22 @@ import { Link } from "react-router-dom";
 
 const ProductDisplay = (item) => {
   const { product } = item;
-  const { image, name, old_price, new_price, id, category } = product;
-  const { addToCart } = useContext(ShopContext);
+  const { image, name, old_price, new_price, productId, category } = product;
+  const { addToCart, categoryValue } = useContext(ShopContext);
   const [size, setSize] = useState(null);
   const [sizeSelection, setSizeSelection] = useState({});
   
   const notifyItemAdded = () => toast.success("Item added to the cart 😊", {
     autoClose: 1500
   });
-  const notifySizeSelectionRequired = () => toast.error("Please select a size before proceeding to checkout", {
+  const notifySizeSelectionRequired = () => toast.info("Please select a size before adding item to cart", {
     autoClose: 2500
   });
+
+  useEffect(()=>{
+    const {setActiveCategory} = categoryValue;
+    setActiveCategory(category);
+  })
 
   const sizeValidation = ()=>{
     if(size === null)
@@ -27,7 +32,7 @@ const ProductDisplay = (item) => {
     }
     else
     {
-      addToCart(id);
+      addToCart(productId);
       notifyItemAdded();
     }
   }
@@ -40,13 +45,13 @@ const ProductDisplay = (item) => {
     <div className="flex flex-col gap-3 mb-5 lg:flex-row mx-3">
       <div className="gap-2 flex items-center justify-center">
         <div className="flex flex-col w-[7rem] gap-2">
-          <img className="" src={image} alt="" />
-          <img className="" src={image} alt="" />
-          <img className="" src={image} alt="" />
-          <img className="" src={image} alt="" />
+          <img className="" src={image.url} alt="" />
+          <img className="" src={image.url} alt="" />
+          <img className="" src={image.url} alt="" />
+          <img className="" src={image.url} alt="" />
         </div>
         <div className="w-[30rem]">
-          <img src={image} className=" w-[100%]" alt="product img" />
+          <img src={image.url} className=" w-[100%]" alt="product img" />
         </div>
       </div>
       <div className="flex flex-col lg:mt-5 gap-5">

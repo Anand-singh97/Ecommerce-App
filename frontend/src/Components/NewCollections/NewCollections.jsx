@@ -1,7 +1,24 @@
-import React from 'react'
-import newCollection from '../Assets/new_collections';
+import React, { useEffect, useState } from 'react'
 import Item from '../Item/Item';
 const NewCollections = () => {
+
+  const [newCollection, setNewCollection] = useState([]);
+
+  const getNewCollection = async()=>{
+
+    const response = await fetch('http://localhost:4000/product/newProducts', {
+      method:'GET',
+      credentials:'include'
+    })
+    if(response.ok)
+    {
+      const {result} = await response.json();
+      setNewCollection(result);
+    }
+  } 
+  useEffect(()=>{
+    getNewCollection();
+  })
   return (
     <div className='mb-[5rem]'>
         <div className='flex justify-center mb-4'>

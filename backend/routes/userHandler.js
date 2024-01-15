@@ -39,8 +39,9 @@ userRoute.post('/signup', async (req, res) => {
             const response = await addUser(name, email, passwordResponse.hash);
 
             if (response.success) {
-                const token = jwt.sign(response.result, process.env.JWT_SECRET);
-                return res.json({ success: true, token });
+                const {result, name} = response;
+                const token = jwt.sign(result, process.env.JWT_SECRET);
+                return res.json({ success: true, token, name});
             } else {
                 return res.status(400).json({ success: false, message: response.message });
             }

@@ -9,7 +9,7 @@ import RelatedProducts from '../Components/RelatedProducts/RelatedProducts';
 export const Product = () => {
   const {allProducts} = useContext(ShopContext);
   const {productId} = useParams();
-  const product = allProducts.find((e)=> e.id === Number(productId));
+  const product = allProducts.find((e)=> e.productId === Number(productId));
   return (
     <div>
       <Breadcrumbs product = {product}/>

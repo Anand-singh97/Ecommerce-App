@@ -3,8 +3,9 @@ import { Link } from "react-router-dom";
 import { animateScroll as scroll } from 'react-scroll';
 
 const Item = ({ item }) => {
-  const { name, image, new_price, old_price, id } = item;
 
+  const { name, image, new_price, old_price, productId } = item;
+  
   const scrollToTop = () => {
     scroll.scrollToTop({
       duration: 500, 
@@ -13,12 +14,12 @@ const Item = ({ item }) => {
   };
 
   return (
-    <Link to={`/product/${id}`}>
+    <Link to={`/product/${productId}`}>
       <div
       onClick={scrollToTop}
       className="flex gap-1 flex-col hover:scale-105 delay-[60ms] transition-all items-center"
     >
-      <img className="w-[70%] lg:w-[100%]" src={image} alt="productImage" />
+      <img className="w-[70%] lg:w-[100%]" src={image.url} alt="productImage" />
       <div className="flex flex-col items-center">
         <p className="w-[70%] lg:w-[100%]">{name}</p>
       </div>

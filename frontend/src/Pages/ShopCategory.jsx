@@ -2,10 +2,25 @@ import React, { useContext } from "react";
 import { ShopContext } from "../Components/ShopContext/ShopContext";
 import dropDownIcon from "../Components/Assets/dropdown_icon.png";
 import Item from "../Components/Item/Item";
+import {Circles} from 'react-loader-spinner';
 
 export const ShopCategory = (props) => {
   const { allProducts } = useContext(ShopContext);
   const { banner, category } = props;
+
+  if(!allProducts)
+  {
+    return (
+      <div className="flex justify-center items-center h-screen">
+        <Circles
+          height={80}
+          width={80}
+          color="#4fa94d"
+          ariaLabel="circles-loading"
+        />
+      </div>
+    );
+  }
   return (
     <div className="flex flex-col gap-3">
       <img className="mx-3" src={banner} alt="banner" />

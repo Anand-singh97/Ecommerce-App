@@ -3,7 +3,7 @@ const express = require('express');
 const mongoose = require('mongoose');
 const cors = require('cors');
 const cloudinary = require('cloudinary');
-const addProductRouter = require('./routes/productHandler');
+const productRouter = require('./routes/productHandler');
 const userRoute = require('./routes/userHandler');
 require('dotenv').config({ path: './.env' });
 
@@ -27,7 +27,7 @@ app.use(
     })
 );
 
-app.use('/product', addProductRouter);
+app.use('/product', productRouter);
 app.use('/user', userRoute);
 mongoose.connection.once('open', () => {
     console.log('MongoDB connection ready!');

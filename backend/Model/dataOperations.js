@@ -1,11 +1,10 @@
-const { use } = require("../routes/productHandler");
 const { productModel } = require("./product.model");
 const { userProfileModel } = require("./user.model");
 
 //Product Operations:
 async function addProduct(name, newPath, category, new_price, old_price) {
   let ProductData = await productModel.find({});
-  let id = 37;
+  let id = 1;
   if (ProductData.length > 0) {
     let last_product_array = ProductData.slice(-1);
     let lastProduct = last_product_array[0];
@@ -64,7 +63,7 @@ async function addUser(name, email, password) {
         cartData,
       });
       const data = {id:newUser._id};
-      return { success: true, result:data };
+      return { success: true, result:data, name:name };
     } catch (error) {
       return { success: false, message: error.message };
     }
