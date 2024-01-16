@@ -47,24 +47,25 @@ To get started with our e-commerce app, follow these steps:
 1. **Clone the repository:**
 
    ```bash
-   git clone https://github.com/your-username/e-commerce-app.git
+   git clone https://github.com/Anand-singh97/Ecommerce-App.git
+   
 # install dependencies
-# Backend
-cd e-commerce-app/backend
-npm install
+- Backend
+  -cd e-commerce-app/backend
+  -npm install
 
-# Frontend
-cd ../frontend
-npm install
+ -Frontend
+  -cd ../frontend 
+  -npm install
 
-# Admin Frontend
-cd ../admin-frontend
-npm install
+ -Admin Frontend
+  -cd ../admin-frontend
+  -npm install
 
-# start the app
-# Start the backend server
-cd ../backend
-npm start
+ -start the app
+  -Start the backend server
+  -cd ../backend
+ -npm start
 
 # Start the frontend
 cd ../frontend
