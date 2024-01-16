@@ -3,20 +3,25 @@ import starIcon from "../Assets/star_icon.png";
 import starDullIcon from "../Assets/star_dull_icon.png";
 
 const Review = (props) => {
-  const { userName, comment } = props;
+  const { userName, comment, date } = props;
+  const parsedDate = new Date(date);
+  const formattedDate = parsedDate.toISOString().split('T')[0];
   return (
     <div className="p-3">
       <div className="flex items-center gap-3">
         <p className="bg-gray-300 w-[2rem] h-[2rem] rounded-full"></p>
-        <div className="flex items-center gap-3">
+        <div className="flex items-center justify-center gap-3">
             <p className="italic font-semibold">{userName}</p>
-            <div className="flex">
+            <div className=" text-gray-500">
+              ({formattedDate})
+            </div>
+            {/* <div className="flex">
                 <img src={starIcon} alt=""/>
                 <img src={starIcon} alt=""/>
                 <img src={starIcon} alt=""/>
                 <img src={starIcon} alt=""/>
                 <img src={starDullIcon} alt=""/>
-            </div>
+            </div> */}
         </div>
         
       </div>

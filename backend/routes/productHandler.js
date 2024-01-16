@@ -1,6 +1,6 @@
 const express = require('express');
 const {validateUser} = require('./middleware');
-const {addProduct, removeProduct, getAllProducts, updateCart} = require('../Model/dataOperations');
+const {addProduct, removeProduct, getAllProducts, updateCart, getReviews, addReview} = require('../Model/dataOperations');
 const singleUpload = require('../multer');
 const getDataUri = require('../dataUri');
 const cloudinary = require('cloudinary').v2;
@@ -108,6 +108,40 @@ productRouter.post('/addToCart', validateUser, async(req, res)=>{
         return res.status(500).json({success:false, message:'Server error'});
     }
 })
+
+productRouter.post('/addReview', validateUser, async (req, res)=>{
+    try
+    {
+        const { productId, comment } = req.body;
+        const userId = req.user;
+        const response = await addReview(productId, userId, comment);
+        if(response.success)
+        {
+            return res.status(200).json({success:true});
+        }
+        else
+        {
+            return res.status(400).json({success:false});
+        }
+    }
+    catch(error)
+    {
+        return res.status(500).json({success:false});
+    }
+})
+
+productRouter.post("/getReviews", async (req, res) => {
+  const { productId } = req.body;
+  const response = await getReviews(productId);
+  if(response.success)
+  {
+    return res.status(200).json({success:true, result:response.result});
+  }
+  else
+  {
+    return res.status(400).json({success:false, result:response.message});
+  }
+});
 
 productRouter.post('/removeFromCart', validateUser, async(req, res)=>{
 

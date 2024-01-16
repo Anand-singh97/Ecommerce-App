@@ -14,7 +14,7 @@ export const Product = () => {
     <div>
       <Breadcrumbs product = {product}/>
       <ProductDisplay product = {product}/>
-      <ProductDescription/>
+      <ProductDescription productId = {product.productId}/>
       <RelatedProducts/>
     </div>
   )

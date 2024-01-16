@@ -149,6 +149,48 @@ async function getCartData(userId)
   }
 }
 
+async function getReviews(productId) {
+  try {
+    const product = await productModel
+      .findOne({ productId })
+      .populate({ path: "reviews.userId", select: "name" })
+      .exec();
+
+    if (product) {
+      return {success:true, result:product.reviews};
+    } else {
+      return {success:false, message:'Product not found'};
+    }
+  } catch (error) {
+    console.error(error);
+    return {success:false, message:'Server Error'};
+  }
+}
+
+async function addReview(productId, userId, comment)
+{
+  try
+  {
+    const product = await productModel.findOne({productId});
+    if(product)
+    {
+      product.reviews.push({userId:userId, comment:comment});
+      await productModel.updateOne({productId:productId}, {reviews:product.reviews});
+      return {success:true};
+    }
+    else
+    {
+      console.log('Product does not exist');
+      return {success:false};
+    }
+  }
+  catch(error)
+  {
+    console.log(error);
+    return {success:false};
+  }
+}
+
 module.exports = {
   addProduct,
   removeProduct,
@@ -156,5 +198,7 @@ module.exports = {
   addUser,
   checkUser,
   updateCart,
-  getCartData
+  getCartData,
+  getReviews,
+  addReview
 };
