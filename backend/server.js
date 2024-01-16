@@ -20,7 +20,7 @@ cloudinary.v2.config({
 
 app.use(
     cors({
-      origin: ['http://localhost:3001', 'http://localhost:3000'],
+      origin: ['https://genuine-dusk-3b82c7.netlify.app/', 'http://localhost:3000'],
       credentials: true,
       allowedHeaders: ['Content-Type', 'Authorization', 'auth-token'],
       methods: ['GET', 'HEAD', 'PUT', 'PATCH', 'POST', 'DELETE', 'OPTIONS']
