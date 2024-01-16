@@ -7,7 +7,7 @@ const productRouter = require('./routes/productHandler');
 const userRoute = require('./routes/userHandler');
 require('dotenv').config({ path: './.env' });
 
-const PORT = 4000;
+const PORT = process.env.PORT || 8000;
 const app = express();
 
 app.use(express.json());
