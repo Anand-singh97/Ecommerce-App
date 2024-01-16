@@ -1,5 +1,6 @@
 const express = require('express');
-const {addProduct, removeProduct, getAllProducts} = require('../Model/dataOperations');
+const {validateUser} = require('./middleware');
+const {addProduct, removeProduct, getAllProducts, updateCart} = require('../Model/dataOperations');
 const singleUpload = require('../multer');
 const getDataUri = require('../dataUri');
 const cloudinary = require('cloudinary').v2;
@@ -65,6 +66,70 @@ productRouter.get('/newProducts', async(req, res)=>{
     else
     {
         res.status(500).json({success:false, message:response.message});
+    }
+})
+
+productRouter.get('/popularInWomen', async(req, res)=>{
+
+    const response = await getAllProducts();
+    if(response.success)
+    {   
+        const {result} = response;
+        const newCollection = result.filter((item)=>item.category === 'women').slice(-4);
+        res.status(200).json({success:true, result:newCollection});
+    }
+    else
+    {
+        res.status(500).json({success:false, message:response.message});
+    }
+})
+
+productRouter.post('/addToCart', validateUser, async(req, res)=>{
+
+    try
+    {
+        const {productId} = req.body;
+        const userId = req.user;
+        console.log(productId, userId);
+        const response = await updateCart(userId, productId, 'add');
+        if(response.success)
+        {
+            return res.status(200).json({success:true});
+        }
+        else
+        {
+            console.log(response.message);
+            return res.status(400).json({success:false});
+        }
+    }
+    catch(error)
+    {
+        console.log(error);
+        return res.status(500).json({success:false, message:'Server error'});
+    }
+})
+
+productRouter.post('/removeFromCart', validateUser, async(req, res)=>{
+
+    try
+    {
+        const {productId} = req.body;
+        const userId = req.user;
+        const response = await updateCart(userId, productId, 'remove');
+        if(response.success)
+        {
+            return res.status(200).json({success:true});
+        }
+        else
+        {
+            console.log(response.message);
+            return res.status(400).json({success:false});
+        }
+    }
+    catch(error)
+    {
+        console.log(error);
+        return res.status(500).json({success:false, message:'Server error'});
     }
 })
 

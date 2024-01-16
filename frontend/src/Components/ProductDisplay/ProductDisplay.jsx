@@ -23,7 +23,7 @@ const ProductDisplay = (item) => {
   useEffect(()=>{
     const {setActiveCategory} = categoryValue;
     setActiveCategory(category);
-  })
+  } ,[category, categoryValue])
 
   const sizeValidation = ()=>{
     if(size === null)

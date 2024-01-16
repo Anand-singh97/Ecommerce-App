@@ -1,5 +1,6 @@
 const express = require('express');
-const {addUser, checkUser} = require('../Model/dataOperations');
+const {validateUser} = require('./middleware');
+const {addUser, checkUser, getCartData} = require('../Model/dataOperations');
 const jwt = require('jsonwebtoken');
 const bcrypt = require('bcrypt');
 
@@ -83,5 +84,25 @@ userRoute.post('/login', async (req, res)=>{
         return res.status(500).json({ success: false, message: 'Internal Server Error' });
     }
 });
+
+userRoute.post('/getCartData', validateUser, async (req, res)=>{
+    try
+    {
+        const userId = req.user;
+        const response = await getCartData(userId);
+        if(response.success)
+        {
+            return res.status(200).json({success:true, result:response.result});
+        }
+        else
+        {
+            return res.status(400).json({success:false, message:'Server Error'});
+        }
+    }
+    catch(error)
+    {
+        return res.status(500).json({success:false, message:'Server Error'});
+    }
+})
 
 module.exports = userRoute;

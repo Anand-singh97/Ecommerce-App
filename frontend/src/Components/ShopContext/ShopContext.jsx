@@ -24,13 +24,65 @@ export const ShopContextProvider = (props) => {
     .then((response)=> response.json())
     .then(({result})=>setAllProduct(result))
     .catch((error)=>{alert('Unexpected Error Ocurred, Please Try Again.')})
+
+    if(localStorage.getItem('auth-token'))
+    {
+      const token = localStorage.getItem('auth-token');
+
+      fetch('http://localhost:4000/user/getCartData', {
+        method:'POST',
+        credentials:'include',
+        headers:{
+          Accept:'application/json',
+          'Content-Type':'application/json',
+          'auth-token':`${token}`
+        },
+        body:''
+      })
+      .then((response)=>response.json())
+      .then(({result})=>setCartItems(result))
+      .catch((error)=>alert('Unexpected Error Ocurred, Please Try Again.'))
+    }
   }, []);
 
-  const addToCart = (itemId) => {
+  const addToCart = async (itemId) => {
     setCartItems((prev) => ({ ...prev, [itemId]: prev[itemId] + 1 }));
+    if(localStorage.getItem('auth-token'))
+    {
+      const token = localStorage.getItem('auth-token');
+      const response = await fetch('http://localhost:4000/product/addToCart', {
+        method:'POST',
+        credentials:'include',
+        body: JSON.stringify({'productId':itemId}),
+        headers:{
+          Accept:'application/json',
+          'Content-Type':'application/json',
+          'auth-token':`${token}`
+        }
+      })
+      if(!response.ok)
+      {
+        alert('Server Error, Please try again.');
+      }
+    }
   };
-  const removeFromCart = (itemId) => {
+  const removeFromCart = async (itemId) => {
     setCartItems((prev) => ({ ...prev, [itemId]: prev[itemId] - 1 }));
+    if(localStorage.getItem('auth-token'))
+    {
+      const token = localStorage.getItem('auth-token');
+      const response = await fetch('http://localhost:4000/product/removeFromCart', {
+        method:'POST',
+        credentials:'include',
+        body: JSON.stringify({'productId':itemId}),
+        headers:{
+          Accept:'application/json',
+          'Content-Type':'application/json',
+          'auth-token':`${token}`
+        }
+      })
+      console.log(response);
+    }
   };
   const getTotalCartAmount = () => {
     let totalAmount = 0;

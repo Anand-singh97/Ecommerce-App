@@ -34,9 +34,9 @@ export const LoginSignup = () => {
   {
     if(validation())
     {
-      const processingToast = toast.info("😊 Processing request. Please wait...", {
-        autoClose: false
-      });
+      // const processingToast = toast.info("😊 Processing request. Please wait...", {
+      //   autoClose: false
+      // });
       console.log(email, password);
       const response = await fetch('http://localhost:4000/user/login', {
         method: 'POST',
@@ -49,20 +49,18 @@ export const LoginSignup = () => {
       })
       if(response.ok)
       { 
-        const {name, token} = await response.json();
+        const {token} = await response.json();
         localStorage.setItem('auth-token', token);
-        toast.update(processingToast, {
-          render:`Welcome ${name}`,
-          type:toast.TYPE.SUCCESS,
-          autoClose:3000
-        })
+        // toast.update(processingToast, {
+        //   render:`Welcome ${name}`,
+        //   type:toast.TYPE.SUCCESS,
+        //   autoClose:3000
+        // })
         window.location.replace('/');
       }
       else
       {
-        toast.update(processingToast, {
-          render:`Invalid Credentials`,
-          type:toast.TYPE.ERROR,
+        toast.error('Invalid Credentials', {
           autoClose:3000
         })
       }
@@ -106,6 +104,11 @@ export const LoginSignup = () => {
     }
   }
 
+  const fillCredentials = ()=>{
+    setEmail('TestUser1@gmial.com');
+    setPassword('Tesla369');
+  }
+
   return (
     <div className='flex bg-pink-100 justify-center items-center h-[60vh]'>
       <div className='w-[430px] lg:w-[600px] bg-white p-6'>
@@ -114,7 +117,7 @@ export const LoginSignup = () => {
           {state !== 'Login' 
           ? 
           <div className='mb-2'>
-            <input type='text' onChange={(e)=> setName(e.target.value)} placeholder='Your name' className='focus:outline-none border-2 p-2' />
+            <input type='text' value={name} onChange={(e)=> setName(e.target.value)} placeholder='Your name' className='focus:outline-none border-2 p-2' />
             {errors.name ? <span className='block text-red-400'>{errors.name}</span> : <></>}
           </div> 
           :
@@ -122,17 +125,18 @@ export const LoginSignup = () => {
           
           }
           <div className='mb-2'>
-            <input type='email' onChange={(e)=> setEmail(e.target.value)} placeholder='Email Address' className='focus:outline-none border-2 p-2' />
+            <input type='email' value={email} onChange={(e)=> setEmail(e.target.value)} placeholder='Email Address' className='focus:outline-none border-2 p-2' />
             {errors.email ? <span className='block text-red-400'>{errors.email}</span> : <></> }
           </div>
           
           <div className='mb-4'>
-            <input type='password' onChange={(e)=> setPassword(e.target.value)} placeholder='Password' className='focus:outline-none border-2 p-2' />
+            <input type='password' value={password} onChange={(e)=> setPassword(e.target.value)} placeholder='Password' className='focus:outline-none border-2 p-2' />
             {errors.password ? <span className='block text-red-400'>{errors.password}</span> : <></> }
           </div>  
         </div>
-        <div className='flex mb-3 justify-center'>
+        <div className='flex flex-col gap-3  items-center mb-3 justify-center'>
           <Link onClick={()=> {state === 'Login' ? login() : signUp()}} className='flex bg-red-400 text-white py-2 px-[2rem] rounded-sm items-center'>Continue</Link>
+          {state === 'Login' ? <Link onClick={fillCredentials} className='flex bg-blue-400 text-white py-2 px-[2rem] rounded-sm items-center'>Fill Test Credentials</Link> : <></>}
         </div>
         {
           state !== 'Login' ? <p className='mt-2 text-[0.9rem] flex justify-center'>Already have an account?&nbsp;<Link onClick={()=> setState('Login')} className=' text-red-500 font-semibold' to="/login">Login Here</Link></p>

@@ -1,3 +1,4 @@
+const { trusted } = require("mongoose");
 const { productModel } = require("./product.model");
 const { userProfileModel } = require("./user.model");
 
@@ -62,34 +63,90 @@ async function addUser(name, email, password) {
         password,
         cartData,
       });
-      const data = {id:newUser._id};
-      return { success: true, result:data, name:name };
+      const data = { id: newUser._id };
+      return { success: true, result: data, name: name };
     } catch (error) {
       return { success: false, message: error.message };
     }
   }
 }
 
-async function checkUser(email)
+async function checkUser(email) {
+  try {
+    const user = await userProfileModel.findOne({ email: email });
+    if (user) {
+      const data = { id: user._id };
+      return {
+        success: true,
+        result: user.password,
+        data: data,
+        name: user.name,
+      };
+    } else {
+      return { success: false, message: "Invalid Credentials" };
+    }
+  } catch (error) {
+    return { success: false, message: error.message };
+  }
+}
+
+async function updateCart(userId, productId, requestType) 
 {
+
+  let userData = await userProfileModel.findOne({_id:userId})
+  if(userData)
+  {
     try
     {
-        const user = await userProfileModel.findOne({email:email});
-        if(user)
+      if(requestType === 'add')
+      {
+        userData.cartData[productId] += 1
+      }
+      else if(requestType === 'remove')
+      {
+        if(userData.cartData[productId] > 0)
         {
-            const data = {id:user._id};
-            return {success:true, result:user.password, data:data, name:user.name}
-        }
-        else
-        {
-            return {success:false, message:'Invalid Credentials'}
-        }
+          userData.cartData[productId] -= 1
+        } 
+      }
+      else
+      {
+        return {success:false, message:'invalid request'};
+      }
+      await userProfileModel.updateOne({_id:userId}, {cartData:userData.cartData});
+      return {success:true};
     }
     catch(error)
     {
-        return {success:false, message:error.message}
+      console.log(error);
+      return {success:false, message:'Server error'}
     }
-    
+  }
+  else
+  {
+    return {success:true, message:'invalid user'}
+  }
+}
+
+async function getCartData(userId)
+{
+  try
+  {
+    const userData = await userProfileModel.findOne({_id:userId});
+    if(userData)
+    {
+      const cartData = userData.cartData;
+      return {success:true, result:cartData};
+    }
+    else
+    {
+      return {success:false, message:'Server Error'}
+    }
+  }
+  catch(error)
+  {
+    return {success:false, message:'Server Error'}
+  }
 }
 
 module.exports = {
@@ -97,5 +154,7 @@ module.exports = {
   removeProduct,
   getAllProducts,
   addUser,
-  checkUser
+  checkUser,
+  updateCart,
+  getCartData
 };
