@@ -7,7 +7,7 @@ const NewCollections = () => {
   useEffect(()=>{
     const getNewCollection = async()=>{
 
-      const response = await fetch('http://localhost:4000/product/newProducts', {
+      const response = await fetch('https://ecommercebackend-bp4d.onrender.com/product/newProducts', {
         method:'GET',
         credentials:'include'
       })

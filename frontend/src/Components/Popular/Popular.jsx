@@ -10,7 +10,7 @@ const Popular = () => {
     const fetchPopularInWomen = async () => {
       try {
         const response = await fetch(
-          "http://localhost:4000/product/popularInWomen",
+          "https://ecommercebackend-bp4d.onrender.com/product/popularInWomen",
           {
             method: "GET",
             credentials: "include",

@@ -17,7 +17,7 @@ export const ShopContextProvider = (props) => {
   const categoryValue = { activeCategory, setActiveCategory };
 
   useEffect(() => {
-    fetch("http://localhost:4000/product/allProducts", {
+    fetch("https://ecommercebackend-bp4d.onrender.com/product/allProducts", {
       method: "GET",
       credentials: "include",
     })
@@ -29,7 +29,7 @@ export const ShopContextProvider = (props) => {
     {
       const token = localStorage.getItem('auth-token');
 
-      fetch('http://localhost:4000/user/getCartData', {
+      fetch('https://ecommercebackend-bp4d.onrender.com/user/getCartData', {
         method:'POST',
         credentials:'include',
         headers:{
@@ -50,7 +50,7 @@ export const ShopContextProvider = (props) => {
     if(localStorage.getItem('auth-token'))
     {
       const token = localStorage.getItem('auth-token');
-      const response = await fetch('http://localhost:4000/product/addToCart', {
+      const response = await fetch('https://ecommercebackend-bp4d.onrender.com/product/addToCart', {
         method:'POST',
         credentials:'include',
         body: JSON.stringify({'productId':itemId}),
@@ -71,7 +71,7 @@ export const ShopContextProvider = (props) => {
     if(localStorage.getItem('auth-token'))
     {
       const token = localStorage.getItem('auth-token');
-      const response = await fetch('http://localhost:4000/product/removeFromCart', {
+      const response = await fetch('https://ecommercebackend-bp4d.onrender.com/product/removeFromCart', {
         method:'POST',
         credentials:'include',
         body: JSON.stringify({'productId':itemId}),

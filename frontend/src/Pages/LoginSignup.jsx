@@ -39,13 +39,13 @@ export const LoginSignup = () => {
       //   autoClose: false
       // });
       console.log(email, password);
-      const response = await fetch('http://localhost:4000/user/login', {
+      const response = await fetch('https://ecommercebackend-bp4d.onrender.com/user/login', {
         method: 'POST',
         body: JSON.stringify({email:email, password:password}),
         credentials:'include',
         headers:{
           Accept:'application/json',
-          'Content-Type':'application/json'
+          'Content-Type':'application/json' //
         }
       })
       if(response.ok)
@@ -75,7 +75,7 @@ export const LoginSignup = () => {
       //   autoClose: false
       // });
       console.log(email, password);
-      const response = await fetch('http://localhost:4000/user/signup', {
+      const response = await fetch('https://ecommercebackend-bp4d.onrender.com/user/signup', {
         method: 'POST',
         body: JSON.stringify({email:email, password:password, name:name}),
         credentials:'include',
