@@ -1,6 +1,4 @@
 import React from "react";
-import starIcon from "../Assets/star_icon.png";
-import starDullIcon from "../Assets/star_dull_icon.png";
 
 const Review = (props) => {
   const { userName, comment, date } = props;
