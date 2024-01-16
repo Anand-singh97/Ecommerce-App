@@ -1,7 +1,7 @@
 import React, { useState } from "react";
 import Review from "../Review/Review";
 
-const DescriptionBox = () => {
+export const DescriptionBox = () => {
 
   const [descriptionOrReview, setDescriptionOrReview] = useState("description");
 
@@ -77,4 +77,3 @@ const DescriptionBox = () => {
     </div>
   );
 };
-export default DescriptionBox;
