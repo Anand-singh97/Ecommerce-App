@@ -8,7 +8,7 @@ export const ShopCategory = (props) => {
   const { allProducts } = useContext(ShopContext);
   const { banner, category } = props;
   const [categorySpecificProducts, setCategorySpecificProducts] = useState([]);
-  const [sortBySelection, setSortBySelection] = useState('title');
+  const [sortBySelection, setSortBySelection] = useState('priceDescending');
   useEffect(() => {
 
     if (allProducts.length > 0) {
