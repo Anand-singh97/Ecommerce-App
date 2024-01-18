@@ -4,10 +4,31 @@ import "react-toastify/dist/ReactToastify.css";
 import cross_icon from "../assets/cross_icon.png";
 import nothing from "../assets/nothing.png";
 import { Triangle } from "react-loader-spinner";
+import EditIcon from "@mui/icons-material/Edit";
+import { Link } from "react-router-dom";
+import Button from "@mui/material/Button";
+import Dialog from "@mui/material/Dialog";
+import DialogActions from "@mui/material/DialogActions";
+import DialogContent from "@mui/material/DialogContent";
+import DialogTitle from "@mui/material/DialogTitle";
 
 const ListProduct = () => {
+
   const [allProducts, setAllProducts] = useState([]);
   const [loading, setLoading] = useState(true);
+  const [open, setOpen] = useState(false);
+  const [selectedProductId, setSelectedProductId] = useState(null);
+  const [selectedName, setSelectedName] = useState(null);
+
+  const handleClickOpen = (productId, name) => {
+    setSelectedProductId(productId);
+    setSelectedName(name);
+    setOpen(true);
+  };
+
+  const handleClose = () => {
+    setOpen(false);
+  };
 
   const fetchAllProducts = async () => {
     let processingToast;
@@ -17,7 +38,7 @@ const ListProduct = () => {
       // });
 
       const response = await fetch(
-        "http://localhost:4000/product/allProducts",
+        "https://ecommercebackend-bp4d.onrender.com/product/allProducts",
         {
           method: "GET",
           credentials: "include",
@@ -56,17 +77,17 @@ const ListProduct = () => {
   }, []);
 
   // Assuming removeFromCart is a function that you need to define
-  const removeFromCart = async (productId, name) => {
+  const removeFromCart = async () => {
     try {
       const response = await fetch(
-        "http://localhost:4000/product/removeProduct",
+        "https://ecommercebackend-bp4d.onrender.com/product/removeProduct",
         {
           method: "POST",
           headers: {
             Accept: "application/json",
             "Content-Type": "application/json",
           },
-          body: JSON.stringify({ id: productId, name: name }),
+          body: JSON.stringify({ id: selectedProductId, name: selectedName }),
           credentials: "include",
         }
       );
@@ -85,14 +106,15 @@ const ListProduct = () => {
         autoClose: 3000,
       });
     }
+    handleClose();
   };
 
   return (
     <div className="bg-white items-center flex flex-col border-2 h-[30rem] md:h-[30rem] lg:h-[40rem] overflow-scroll rounded-lg p-1 mx-4 md:p-8">
       <div className="my-[1rem] mb-[3rem]">
         <div className="flex justify-center mb-4">
-          <h1 className="text-2xl md:text-3xl font-bold border-b-[3px] border-black w-fit text-center mt-5">
-            PRODUCT LIST
+          <h1 className=" text-[1.5rem] font-[500] border-b-[1px] border-black">
+            Product List
           </h1>
         </div>
 
@@ -100,15 +122,17 @@ const ListProduct = () => {
           <div className="flex justify-center">
             {loading ? (
               <div className="my-8">
-              render(<Triangle
-                visible={true}
-                height="80"
-                width="80"
-                color="#4fa94d"
-                ariaLabel="triangle-loading"
-                wrapperStyle={{}}
-                wrapperClass=""
-                />)
+                render(
+                <Triangle
+                  visible={true}
+                  height="80"
+                  width="80"
+                  color="#4fa94d"
+                  ariaLabel="triangle-loading"
+                  wrapperStyle={{}}
+                  wrapperClass=""
+                />
+                )
               </div>
             ) : allProducts.length === 0 ? (
               <div className="flex justify-center">
@@ -129,6 +153,7 @@ const ListProduct = () => {
                       <th className="px-1 py-2 text-center">New Price</th>
                       <th className="px-1 py-2 text-center">Category</th>
                       <th className="px-1 py-2 text-center">Remove</th>
+                      <th className="px-1 py-2 text-center">Edit</th>
                     </tr>
                   </thead>
                   <tbody>
@@ -158,11 +183,16 @@ const ListProduct = () => {
                           <td className="px-4 py-2">{category}</td>
                           <td className="px-4 py-2">
                             <img
-                              onClick={() => removeFromCart(productId, name)}
+                            onClick={()=>handleClickOpen(productId, name)}
                               className="w-3 cursor-pointer mx-auto"
                               src={cross_icon}
                               alt="remove icon"
                             />
+                          </td>
+                          <td className="px-4">
+                            <Link to={`/editProduct/${productId}`}>
+                              <EditIcon className="cursor-pointer scale-[0.8]" />
+                            </Link>
                           </td>
                         </tr>
                       );
@@ -185,6 +215,24 @@ const ListProduct = () => {
           transition={Slide}
         />
       </div>
+      <Dialog
+        open={open}
+        onClose={handleClose}
+        aria-labelledby="alert-dialog-title"
+        aria-describedby="alert-dialog-description"
+      >
+        <DialogTitle style={{fontWeight:'500'}} id="alert-dialog-title">
+          {"Are you sure you want to delete this product?"}
+        </DialogTitle>
+        <DialogContent>
+        </DialogContent>
+        <DialogActions>
+          <Button onClick={handleClose}>Cancel</Button>
+          <Button onClick={removeFromCart} autoFocus>
+            Yes
+          </Button>
+        </DialogActions>
+      </Dialog>
     </div>
   );
 };

@@ -1,4 +1,3 @@
-const { trusted } = require("mongoose");
 const { productModel } = require("./product.model");
 const { userProfileModel } = require("./user.model");
 
@@ -26,6 +25,35 @@ async function addProduct(name, newPath, category, new_price, old_price) {
   }
 }
 
+async function updateProduct(productId, name, newPath, category, new_price, old_price)
+{
+  try
+  {
+    const product = await productModel.findOne({productId});
+
+  if(product)
+  {
+    await productModel.updateOne({productId}, {
+      name,
+        image: newPath != null ? { id: newPath.public_id, url: newPath.secure_url } : product.image,
+        category,
+        old_price,
+        new_price,
+    });
+    return {success:true}
+  }
+  else
+  {
+    return {success:false, message:'Product not found'}
+  }
+
+  }
+  catch(error)
+  {
+    return {success:false, message:error}
+  }
+}
+
 async function removeProduct(id) {
   console.log("method");
   try {
@@ -41,6 +69,26 @@ async function getAllProducts() {
     const products = await productModel.find({});
     return { success: true, result: products };
   } catch (error) {
+    return { success: false, message: error.message };
+  }
+}
+
+async function getSingleProduct(productId)
+{
+  try
+  {
+    const product = await productModel.findOne({productId});
+    if(product)
+    {
+      return {success:true, result:product}
+    }
+    else
+    {
+      return {success:false, message:'No product found'}
+    }
+  }
+  catch(error)
+  {
     return { success: false, message: error.message };
   }
 }
@@ -90,62 +138,44 @@ async function checkUser(email) {
   }
 }
 
-async function updateCart(userId, productId, requestType) 
-{
-
-  let userData = await userProfileModel.findOne({_id:userId})
-  if(userData)
-  {
-    try
-    {
-      if(requestType === 'add')
-      {
-        userData.cartData[productId] += 1
+async function updateCart(userId, productId, requestType) {
+  let userData = await userProfileModel.findOne({ _id: userId });
+  if (userData) {
+    try {
+      if (requestType === "add") {
+        userData.cartData[productId] += 1;
+      } else if (requestType === "remove") {
+        if (userData.cartData[productId] > 0) {
+          userData.cartData[productId] -= 1;
+        }
+      } else {
+        return { success: false, message: "invalid request" };
       }
-      else if(requestType === 'remove')
-      {
-        if(userData.cartData[productId] > 0)
-        {
-          userData.cartData[productId] -= 1
-        } 
-      }
-      else
-      {
-        return {success:false, message:'invalid request'};
-      }
-      await userProfileModel.updateOne({_id:userId}, {cartData:userData.cartData});
-      return {success:true};
-    }
-    catch(error)
-    {
+      await userProfileModel.updateOne(
+        { _id: userId },
+        { cartData: userData.cartData }
+      );
+      return { success: true };
+    } catch (error) {
       console.log(error);
-      return {success:false, message:'Server error'}
+      return { success: false, message: "Server error" };
     }
-  }
-  else
-  {
-    return {success:true, message:'invalid user'}
+  } else {
+    return { success: true, message: "invalid user" };
   }
 }
 
-async function getCartData(userId)
-{
-  try
-  {
-    const userData = await userProfileModel.findOne({_id:userId});
-    if(userData)
-    {
+async function getCartData(userId) {
+  try {
+    const userData = await userProfileModel.findOne({ _id: userId });
+    if (userData) {
       const cartData = userData.cartData;
-      return {success:true, result:cartData};
+      return { success: true, result: cartData };
+    } else {
+      return { success: false, message: "Server Error" };
     }
-    else
-    {
-      return {success:false, message:'Server Error'}
-    }
-  }
-  catch(error)
-  {
-    return {success:false, message:'Server Error'}
+  } catch (error) {
+    return { success: false, message: "Server Error" };
   }
 }
 
@@ -200,5 +230,7 @@ module.exports = {
   updateCart,
   getCartData,
   getReviews,
-  addReview
+  addReview,
+  getSingleProduct,
+  updateProduct
 };

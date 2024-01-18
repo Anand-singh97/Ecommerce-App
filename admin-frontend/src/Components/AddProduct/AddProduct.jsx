@@ -55,7 +55,7 @@ const AddProduct = () => {
 
       try
       {
-        const response = await fetch("http://localhost:4000/product/addProduct", {
+        const response = await fetch("https://ecommercebackend-bp4d.onrender.com/product/addProduct", {
         method: "POST",
         credentials: "include",
         body:formData,
@@ -86,8 +86,7 @@ const AddProduct = () => {
       })
     }
         
-      }
-      
+      }  
   };
 
   return (
@@ -97,6 +96,9 @@ const AddProduct = () => {
         className="flex justify-center h-full lg:w-[75%] w-full"
       >
         <div className="flex flex-col w-full items-center gap-5 bg-white mx-5 rounded-lg py-[2rem] lg:px-[2rem] lg:h-full">
+          <div>
+            <h1 className=" text-[1.5rem] border-b-[1px] border-black font-[500] ">Add Product</h1>
+          </div>
           <div className="lg:w-full">
             <p className="text-gray-600 font-[500]">Product title</p>
             <input
