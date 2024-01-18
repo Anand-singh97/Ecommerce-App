@@ -81,7 +81,6 @@ function Navbar() {
               Login
             </Link>
           )}
-          <Link className="border-2 bg-orange-300 py-1 px-5 rounded-lg">Admin Panel</Link>
         </div>
       </div>
       <div>
