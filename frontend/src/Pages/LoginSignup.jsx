@@ -106,7 +106,7 @@ export const LoginSignup = () => {
   }
 
   const fillCredentials = ()=>{
-    setEmail('TestUser1@gmial.com');
+    setEmail('TestUser1@gmail.com');
     setPassword('Tesla369');
   }
 
