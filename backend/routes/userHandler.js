@@ -1,6 +1,6 @@
 const express = require('express');
 const {validateUser} = require('./middleware');
-const {addUser, checkUser, getCartData} = require('../Model/dataOperations');
+const {addUser, checkUser, getCartData, getUserData, updateUserData} = require('../Model/dataOperations');
 const jwt = require('jsonwebtoken');
 const bcrypt = require('bcrypt');
 
@@ -84,6 +84,58 @@ userRoute.post('/login', async (req, res)=>{
         return res.status(500).json({ success: false, message: 'Internal Server Error' });
     }
 });
+
+userRoute.get('/getUserData', validateUser, async(req, res)=>{
+  
+    try
+    {
+        const userId = req.user;
+        const response = await getUserData(userId);
+        if(response.success)
+        { 
+            res.status(200).json({success:true, result:response.result});
+        }
+        else
+        {
+            res.status(400).json({success:false});
+        }
+    }
+    catch(error)
+    {
+        console.log(error);
+        res.status(500).json({success:false});
+    }
+})
+
+userRoute.post('/updateUserData', validateUser, async (req, res)=>{
+    try
+    {
+        const userId = req.user;
+        console.log(req.body);
+        const {name, email, password} = req.body;
+        console.log(name, email);
+        if(password)
+        {
+            password = await hashPassword(password);
+            password = password.hash;
+        }
+        const response = await updateUserData(name, email, password, userId);
+        if(response.success)
+        {
+            res.status(200).json({success:true});
+        }
+        else
+        {
+            console.log(response.message);
+            res.status(400).json({success:false});
+        }
+    }
+    catch(error)
+    {
+        console.log(error);
+        res.status(500).json({success:false});
+    }
+})
 
 userRoute.post('/getCartData', validateUser, async (req, res)=>{
     try

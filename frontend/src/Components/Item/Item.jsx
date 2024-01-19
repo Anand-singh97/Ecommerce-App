@@ -19,7 +19,7 @@ const Item = ({ item }) => {
       onClick={scrollToTop}
       className="flex gap-1 flex-col hover:scale-105 delay-[60ms] transition-all items-center"
     >
-      <img className="w-[70%] lg:w-[100%]" src={image.url} alt="productImage" />
+      <img className="md:w-[70%] w-[65%] lg:w-[100%]" src={image.url} alt="productImage" />
       <div className="flex flex-col items-center">
         <p className="w-[70%] lg:w-[100%]">{name}</p>
       </div>

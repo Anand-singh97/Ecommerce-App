@@ -2,6 +2,7 @@ const http = require('http');
 const express = require('express');
 const mongoose = require('mongoose');
 const cors = require('cors');
+const multer = require('multer');
 const cloudinary = require('cloudinary');
 const productRouter = require('./routes/productHandler');
 const userRoute = require('./routes/userHandler');
@@ -11,6 +12,8 @@ const PORT = process.env.PORT || 4000;
 const app = express();
 
 app.use(express.json());
+app.use(express.urlencoded({ extended: true }));
+app.use(upload.any());
 
 cloudinary.v2.config({
     cloud_name: process.env.CLOUD_NAME,

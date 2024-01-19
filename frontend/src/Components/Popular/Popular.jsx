@@ -37,7 +37,7 @@ const Popular = () => {
   }, []);
 
   return (
-    <div className="mb-[5rem]">
+    <div>
       <div className="flex justify-center mb-4">
         <h1 className="mb-1 text-xl font-bold border-b-[3px] border-black w-fit text-center mt-5">
           POPULAR IN WOMEN

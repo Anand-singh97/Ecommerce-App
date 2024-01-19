@@ -25,32 +25,37 @@ async function addProduct(name, newPath, category, new_price, old_price) {
   }
 }
 
-async function updateProduct(productId, name, newPath, category, new_price, old_price)
-{
-  try
-  {
-    const product = await productModel.findOne({productId});
+async function updateProduct(
+  productId,
+  name,
+  newPath,
+  category,
+  new_price,
+  old_price
+) {
+  try {
+    const product = await productModel.findOne({ productId });
 
-  if(product)
-  {
-    await productModel.updateOne({productId}, {
-      name,
-        image: newPath != null ? { id: newPath.public_id, url: newPath.secure_url } : product.image,
-        category,
-        old_price,
-        new_price,
-    });
-    return {success:true}
-  }
-  else
-  {
-    return {success:false, message:'Product not found'}
-  }
-
-  }
-  catch(error)
-  {
-    return {success:false, message:error}
+    if (product) {
+      await productModel.updateOne(
+        { productId },
+        {
+          name,
+          image:
+            newPath != null
+              ? { id: newPath.public_id, url: newPath.secure_url }
+              : product.image,
+          category,
+          old_price,
+          new_price,
+        }
+      );
+      return { success: true };
+    } else {
+      return { success: false, message: "Product not found" };
+    }
+  } catch (error) {
+    return { success: false, message: error };
   }
 }
 
@@ -73,22 +78,15 @@ async function getAllProducts() {
   }
 }
 
-async function getSingleProduct(productId)
-{
-  try
-  {
-    const product = await productModel.findOne({productId});
-    if(product)
-    {
-      return {success:true, result:product}
+async function getSingleProduct(productId) {
+  try {
+    const product = await productModel.findOne({ productId });
+    if (product) {
+      return { success: true, result: product };
+    } else {
+      return { success: false, message: "No product found" };
     }
-    else
-    {
-      return {success:false, message:'No product found'}
-    }
-  }
-  catch(error)
-  {
+  } catch (error) {
     return { success: false, message: error.message };
   }
 }
@@ -116,6 +114,50 @@ async function addUser(name, email, password) {
     } catch (error) {
       return { success: false, message: error.message };
     }
+  }
+}
+
+async function getUserData(id) {
+  try {
+    const user = await userProfileModel.findById(id);
+    if (user) {
+      const data = {
+        name: user.name,
+        email: user.email,
+        image: user.image,
+      };
+      return { success: true, result: data };
+    } else {
+      console.log("user not found");
+      return { success: false, message: "User not found" };
+    }
+  } catch (error) {
+    console.log(error);
+    return { success: false, message: error };
+  }
+}
+
+async function updateUserData(name, email, password, userId) {
+
+  try {
+
+    const user = await userProfileModel.findById(userId);
+
+    if (user) {
+      await userProfileModel.updateOne(
+        { _id:userId },
+        {
+          name,
+          email,
+          password: password ? password : user.password
+        }
+      );
+      return { success: true };
+    } else {
+      return { success: false, message: "user not found" };
+    }
+  } catch (error) {
+    return { success: false, message: error };
   }
 }
 
@@ -187,37 +229,33 @@ async function getReviews(productId) {
       .exec();
 
     if (product) {
-      return {success:true, result:product.reviews};
+      return { success: true, result: product.reviews };
     } else {
-      return {success:false, message:'Product not found'};
+      return { success: false, message: "Product not found" };
     }
   } catch (error) {
     console.error(error);
-    return {success:false, message:'Server Error'};
+    return { success: false, message: "Server Error" };
   }
 }
 
-async function addReview(productId, userId, comment)
-{
-  try
-  {
-    const product = await productModel.findOne({productId});
-    if(product)
-    {
-      product.reviews.push({userId:userId, comment:comment});
-      await productModel.updateOne({productId:productId}, {reviews:product.reviews});
-      return {success:true};
+async function addReview(productId, userId, comment) {
+  try {
+    const product = await productModel.findOne({ productId });
+    if (product) {
+      product.reviews.push({ userId: userId, comment: comment });
+      await productModel.updateOne(
+        { productId: productId },
+        { reviews: product.reviews }
+      );
+      return { success: true };
+    } else {
+      console.log("Product does not exist");
+      return { success: false };
     }
-    else
-    {
-      console.log('Product does not exist');
-      return {success:false};
-    }
-  }
-  catch(error)
-  {
+  } catch (error) {
     console.log(error);
-    return {success:false};
+    return { success: false };
   }
 }
 
@@ -232,5 +270,7 @@ module.exports = {
   getReviews,
   addReview,
   getSingleProduct,
-  updateProduct
+  updateProduct,
+  getUserData,
+  updateUserData,
 };

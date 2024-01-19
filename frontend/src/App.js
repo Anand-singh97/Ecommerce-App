@@ -10,6 +10,7 @@ import Footer from "./Components/Footer/Footer";
 import men_banner from './Components/Assets/banner_mens.png';
 import women_banner from './Components/Assets/banner_women.png';
 import kids_banner from './Components/Assets/banner_kids.png';
+import Profile from "./Components/Profile/Profile";
 
 function App() {
   return (
@@ -26,6 +27,7 @@ function App() {
           <Route path="/cart" element=<Cart />/>
           <Route path="/login" element=<LoginSignup /> />
         </Route>
+        <Route path="/profile" element = {<div className="bg-gray-100"><Profile/></div>}/>
       </Routes>
       <Footer/>
     </div>

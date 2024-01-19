@@ -21,7 +21,11 @@ const userSchema = new mongoose.Schema({
     date:{
         type:Date,
         default:Date.now()
-    }
+    },
+    image:{
+        id:{type:String},
+        url:{type:String}
+    },
 });
 const userProfileModel = mongoose.model('userProfile', userSchema);
 

@@ -3,7 +3,6 @@ import { useState } from 'react'
 import { Link } from 'react-router-dom'
 import { ToastContainer, toast, Slide } from "react-toastify";
 import 'react-toastify/dist/ReactToastify.css';
-
 export const LoginSignup = () => {
 
   const [state, setState] = useState('Login');
@@ -45,7 +44,7 @@ export const LoginSignup = () => {
         credentials:'include',
         headers:{
           Accept:'application/json',
-          'Content-Type':'application/json' //
+          'Content-Type':'application/json'
         }
       })
       if(response.ok)
