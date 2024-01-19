@@ -3,7 +3,7 @@ import { ShopContext } from '../Components/ShopContext/ShopContext';
 import { useParams } from 'react-router-dom';
 import Breadcrumbs from '../Components/Breadcrumbs/Breadcrumbs';
 import ProductDisplay from '../Components/ProductDisplay/ProductDisplay';
-import DescriptionBox from '../Components/DescriptionBox/DescriptionBox';
+import ProductDescription from '../Components/ProductDescription/ProductDescription';
 import RelatedProducts from '../Components/RelatedProducts/RelatedProducts';
 
 export const Product = () => {
@@ -14,7 +14,7 @@ export const Product = () => {
     <div>
       <Breadcrumbs product = {product}/>
       <ProductDisplay product = {product}/>
-      <DescriptionBox productId = {product.productId}/>
+      <ProductDescription productId = {product.productId}/>
       <RelatedProducts/>
     </div>
   )
