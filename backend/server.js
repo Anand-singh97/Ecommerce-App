@@ -6,6 +6,7 @@ const multer = require('multer');
 const cloudinary = require('cloudinary');
 const productRouter = require('./routes/productHandler');
 const userRoute = require('./routes/userHandler');
+const upload = multer();
 require('dotenv').config({ path: './.env' });
 
 const PORT = process.env.PORT || 4000;
