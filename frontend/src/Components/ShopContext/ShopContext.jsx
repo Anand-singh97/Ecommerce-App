@@ -20,7 +20,7 @@ export const ShopContextProvider = (props) => {
     fetch("https://ecommercebackend-bp4d.onrender.com/product/allProducts", {
       method: "GET",
       credentials: "include",
-    })
+    } ,[])
     .then((response)=> response.json())
     .then(({result})=>setAllProduct(result))
     .catch((error)=>{alert('Unexpected Error Ocurred, Please Try Again.')})
